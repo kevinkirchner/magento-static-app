@@ -1,7 +1,7 @@
 magento-static-app
 ==================
 
-Get a magento theme placeholder up and running quickly for fast theming with static templates
+A frontend tool to start theming your Magento site without needing a ton of setup (e.g. no database required; no product/category setup required - it's done for you and WAY easier to modify). Just start theming…
 
 ## Installation
 
