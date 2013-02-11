@@ -16,6 +16,7 @@
     
     
     // Set global fallback template
+    $app->setTemplate('page/1column.phtml', true);
 
     // Add Default Blocks
     // TODO: add global messages when url has params
@@ -29,8 +30,7 @@
 
     // Home Page
     if ($handle == 'cms_index_index') {
-        // TODO: add a "addCmsBlock" method and use it here
-        // $app->addChildBlock('content', '', 'cms/pages/home.phtml', 'home', '', true);
+        
     }
 
 

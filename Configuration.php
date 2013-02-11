@@ -8,6 +8,8 @@ error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE);
 $config = array(
     'mage_version' => '1.7',
     'store_name' => 'Static App',
-    'theme' => 'custom' // directory in /static/app/ and /static/skin for custom templates and stylesheets
-    
+    'custom_theme' => 'custom', // directory in /app/ and /skin for custom templates and stylesheets
+    'default_theme' => 'default'
 );
+
+
