@@ -22,9 +22,13 @@ class StaticApp extends StaticApp_Abstract
         
         // include the template that was set
         if ( isset($this->_data['template']) ) {
-            $theme = isset($this->_data['template']['theme']) ? $this->_data['template']['theme'] : $this->_getTheme(true);
+            $theme = isset($this->_data['template']['theme']) ? $this->_data['template']['theme'] : $this->getTheme(true);
             $templatePath = 'app/' . $theme . '/template/' . $this->_data['template']['path'];
-            include_once( $templatePath );
+            if (file_exists($templatePath)) {
+                include_once( $templatePath );
+            } else {
+                include_once( 'app/default/template/' . $this->_data['template']['path'] );
+            }
         } else {
             throw new Exception("No template was set. Use StaticApp::setTemplate('path')", 1);
         }
@@ -35,9 +39,10 @@ class StaticApp extends StaticApp_Abstract
     public function addBlock($template, $name, $alias='', $type='core/template', $theme='default')
     {
         $blockReference = $alias ? $alias : $name;
-        $theme = $theme ? $theme : $this->_getTheme();
+        $theme = $theme ? $theme : $this->getTheme();
+        $path = file_exists('app/' . $theme . '/template/' . $template) ? 'app/' . $theme . '/template/' . $template : 'app/default/template/' . $template;
         $blockData = array(
-            'template' => 'app/' . $theme . '/template/' . $template,
+            'template' => $path,
             'name' => $name,
             'alias' => $alias,
             'type' => $type,
@@ -78,9 +83,10 @@ class StaticApp extends StaticApp_Abstract
     public function addContentBlock($structuralBlock, $template, $name, $alias='', $type='core/template', $theme='default')
     {
         $blockReference = $alias ? $alias : $name;
-        $theme = $theme ? $theme : $this->_getTheme();
+        $theme = $theme ? $theme : $this->getTheme();
+        $path = file_exists('app/' . $theme . '/template/' . $template) ? 'app/' . $theme . '/template/' . $template : 'app/default/template/' . $template;
         $blockData = array(
-            'template' => 'app/' . $theme . '/template/' . $template,
+            'template' => $path,
             'name' => $name,
             'alias' => $alias,
             'type' => $type,

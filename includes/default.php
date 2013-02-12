@@ -1,7 +1,7 @@
 <?php
     global $app;
     global $handle;
-    
+        
     // TODO: Check if files exists, otherwise, stop and display svn script to run
 /*  
     $ cd static/;
@@ -18,15 +18,15 @@
     
     
     // Set global fallback template
-    $app->setTemplate('page/1column.phtml');
+    $app->setTemplate('page/1column.phtml', $app->getTheme(true));
 
-    // Add Default Blocks
-    $app->addBlock( 'page/html/head.phtml', 'head', '', 'page/html_head' )
-        ->addBlock( 'page/html/header.phtml', 'header', '', 'page/html' )
-            ->addBlock( 'catalogsearch/form.mini.phtml', 'top.search', 'topSearch', 'core/template' )
-            // ->addBlock( 'page/switch/languages.phtml', 'store_language', 'store_language', 'page/switch' )
-            ->addContentBlock( 'topMenu', 'page/html/topmenu.phtml', 'catalog.topnav', '', 'page/html_topmenu' )
-        ->addBlock( 'page/html/footer.phtml', 'footer', '', 'page/html' );
+    // Add Default Blocks/*
+    $app->addBlock( 'page/html/head.phtml', 'head', '', 'page/html_head', $app->getTheme(true) )
+        ->addBlock( 'page/html/header.phtml', 'header', '', 'page/html', $app->getTheme(true) )
+            ->addBlock( 'catalogsearch/form.mini.phtml', 'top.search', 'topSearch', 'core/template', $app->getTheme(true) )
+            ->addContentBlock( 'topMenu', 'page/html/topmenu.phtml', 'catalog.topnav', '', 'page/html_topmenu', $app->getTheme(true) )
+        ->addBlock( 'page/html/footer.phtml', 'footer', '', 'page/html', $app->getTheme(true) );
+
     
     if (isset($_GET['msg'])) {
         $msgType = $_GET['msg'];

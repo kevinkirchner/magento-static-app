@@ -40,8 +40,8 @@ class StaticApp_Abstract extends Mage
         return ob_get_clean();
     }
     
-    // _getTheme
-    protected function _getTheme($default=false)
+    // getTheme
+    public function getTheme($default=false)
     {
         $theme = $default ? 'default_theme' : 'custom_theme';
         return isset($this->_config[ $theme ]) ? $this->_config[ $theme ] : 'default';
@@ -55,11 +55,11 @@ class StaticApp_Abstract extends Mage
     }
     
     // Set Template
-    public function setTemplate($path, $default=false)
+    public function setTemplate($path, $theme='')
     {
         $this->_data['template'] = array(
             'path' => $path,
-            'default' => $default
+            'theme' => $theme ? $theme : $this->getTheme(true)
         );
         return $this;
     }
