@@ -11,6 +11,7 @@
     // 3. Add Custom CSS 
 
     // 4. Add Blocks
+    // $app->addCmsBlock('content', 'cms/pages/home.phtml', 'home' );
     
     // 5. Run Page
 	$app->run('Home');

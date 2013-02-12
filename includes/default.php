@@ -19,9 +19,16 @@
     $app->setTemplate('page/1column.phtml', true);
 
     // Add Default Blocks
-    // TODO: add global messages when url has params
+    $app->addBlock( 'page/html/head.phtml', 'head', '', 'page/html_head', true )
+        ->addBlock( 'page/html/header.phtml', 'header', '', 'page/html', true )
+            ->addBlock( 'catalogsearch/form.mini.phtml', 'top.search', 'topSearch', 'core/template', true )
+            // ->addBlock( 'page/switch/languages.phtml', 'store_language', 'store_language', 'page/switch', true )
+            ->addContentBlock( 'topMenu', 'page/html/topmenu.phtml', 'catalog.topnav', '', 'page/html_topmenu', true )
+        ->addBlock( 'page/html/footer.phtml', 'footer', '', 'page/html', true );
+    
     if (isset($_GET['msg'])) {
         $msgType = $_GET['msg'];
+        // TODO: add global messages when url has params
     }
 
     // Add Custom JS

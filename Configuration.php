@@ -9,6 +9,7 @@ $config = array(
     'mage_version' => '1.7',
     'store_name' => 'Static App',
     'custom_theme' => 'custom', // directory in /app/ and /skin for custom templates and stylesheets
+    // 'logo_filename' => 'skin/images/logo.png',
     'default_theme' => 'default'
 );
 

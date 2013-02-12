@@ -22,7 +22,7 @@ class StaticApp extends StaticApp_Abstract
         
         // include the template that was set
         if ( isset($this->_data['template']) ) {
-            $theme = $this->_data['template']['default'] ? $this->_config['default_theme'] : $this->_config['custom_theme'];
+            $theme = $this->_data['template']['default'] ? $this->_getTheme( true ) : $this->_getTheme();
             $templatePath = 'app/' . $theme . '/template/' . $this->_data['template']['path'];
             include_once( $templatePath );
         } else {
@@ -31,32 +31,21 @@ class StaticApp extends StaticApp_Abstract
         return $this;
     }
     
-    // Set Config
-    public function setConfig($config)
+    // Add Block
+    public function addBlock($template, $name, $alias='', $type='core/template', $default=false)
     {
-        $this->_config = $config;
-        return $this;
-    }
-    
-    // Set Template
-    public function setTemplate($path, $default=false)
-    {
-        $this->_data['template'] = array(
-            'path' => $path,
+        $blockReference = $alias ? $alias : $name;
+        $theme = $default ? $this->_getTheme( true ) : $this->_getTheme();
+        $blockData = array(
+            'template' => 'app/' . $theme . '/template/' . $template,
+            'name' => $name,
+            'alias' => $alias,
+            'type' => $type,
             'default' => $default
         );
+        $this->_blocks[ $blockReference ] = $blockData;
         return $this;
     }
-
-    // Set Handle
-    public function setHandle($handle)
-    {
-        $this->_data['handle'] = $handle;
-        return $this;
-    }
-    
-    // TODO: make add block methods to pull them with getChildHtml
-    // Add Block
     
     // Add CSS
     
@@ -65,5 +54,46 @@ class StaticApp extends StaticApp_Abstract
     // Add Item 
     
     // Add CMS Block
-    
+    public function addCmsBlock($structuralBlock, $template, $name, $alias='', $type='cms/block', $default=false)
+    {
+        $blockData = array(
+            'template' => $template,
+            'name' => $name,
+            'alias' => $alias,
+            'type' => $type,
+            'default' => $default
+        );
+        
+        if ( !isset($this->_blocks[$structuralBlock]) ) {
+            $this->_blocks[ $structuralBlock ] = array(
+                'blocks' => $blockData
+            );
+        } else {
+            $this->_blocks[$structuralBlock]['blocks'] = $blockData;
+        }
+        return $this;
+    }
+
+    // Add Content Block
+    public function addContentBlock($structuralBlock, $template, $name, $alias='', $type='core/template', $default=false)
+    {
+        $blockReference = $alias ? $alias : $name;
+        $theme = $default ? $this->_getTheme( true ) : $this->_getTheme();
+        $blockData = array(
+            'template' => 'app/' . $theme . '/template/' . $template,
+            'name' => $name,
+            'alias' => $alias,
+            'type' => $type,
+            'default' => $default
+        );
+        
+        if ( !isset($this->_blocks[$structuralBlock]) ) {
+            $this->_blocks[ $structuralBlock ] = array(
+                'blocks' => $blockData
+            );
+        } else {
+            $this->_blocks[$structuralBlock]['blocks'] = $blockData;
+        }
+        return $this;
+    }
 }
