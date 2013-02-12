@@ -22,7 +22,7 @@ class StaticApp extends StaticApp_Abstract
         
         // include the template that was set
         if ( isset($this->_data['template']) ) {
-            $theme = $this->_data['template']['default'] ? $this->_getTheme( true ) : $this->_getTheme();
+            $theme = isset($this->_data['template']['theme']) ? $this->_data['template']['theme'] : $this->_getTheme(true);
             $templatePath = 'app/' . $theme . '/template/' . $this->_data['template']['path'];
             include_once( $templatePath );
         } else {
@@ -32,16 +32,16 @@ class StaticApp extends StaticApp_Abstract
     }
     
     // Add Block
-    public function addBlock($template, $name, $alias='', $type='core/template', $default=false)
+    public function addBlock($template, $name, $alias='', $type='core/template', $theme='default')
     {
         $blockReference = $alias ? $alias : $name;
-        $theme = $default ? $this->_getTheme( true ) : $this->_getTheme();
+        $theme = $theme ? $theme : $this->_getTheme();
         $blockData = array(
             'template' => 'app/' . $theme . '/template/' . $template,
             'name' => $name,
             'alias' => $alias,
             'type' => $type,
-            'default' => $default
+            'theme' => $theme
         );
         $this->_blocks[ $blockReference ] = $blockData;
         return $this;
@@ -54,14 +54,14 @@ class StaticApp extends StaticApp_Abstract
     // Add Item 
     
     // Add CMS Block
-    public function addCmsBlock($structuralBlock, $template, $name, $alias='', $type='cms/block', $default=false)
+    public function addCmsBlock($structuralBlock, $template, $name, $alias='', $type='cms/block', $theme='default')
     {
         $blockData = array(
             'template' => $template,
             'name' => $name,
             'alias' => $alias,
             'type' => $type,
-            'default' => $default
+            'theme' => $theme
         );
         
         if ( !isset($this->_blocks[$structuralBlock]) ) {
@@ -75,16 +75,16 @@ class StaticApp extends StaticApp_Abstract
     }
 
     // Add Content Block
-    public function addContentBlock($structuralBlock, $template, $name, $alias='', $type='core/template', $default=false)
+    public function addContentBlock($structuralBlock, $template, $name, $alias='', $type='core/template', $theme='default')
     {
         $blockReference = $alias ? $alias : $name;
-        $theme = $default ? $this->_getTheme( true ) : $this->_getTheme();
+        $theme = $theme ? $theme : $this->_getTheme();
         $blockData = array(
             'template' => 'app/' . $theme . '/template/' . $template,
             'name' => $name,
             'alias' => $alias,
             'type' => $type,
-            'default' => $default
+            'theme' => $default
         );
         
         if ( !isset($this->_blocks[$structuralBlock]) ) {
