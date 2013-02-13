@@ -34,8 +34,25 @@
     }
 
     // Add Custom JS
+    $app->addCss('styles.css', $app->getTheme(true));
+    $app->addCss('widgets.css', $app->getTheme(true));
+        
     // Add Custom CSS 
-    
+    $app->addExternalJs('http://www.google-analytics.com/ga.js', $app->getTheme(true), 'async=""');
+    $app->addJs('lib/ccard.js', $app->getTheme(true));
+    $app->addJs('prototype/prototype.js', $app->getTheme(true));
+    $app->addJs('prototype/validation.js', $app->getTheme(true));
+    $app->addJs('scriptaculous/builder.js', $app->getTheme(true));
+    $app->addJs('scriptaculous/effects.js', $app->getTheme(true));
+    $app->addJs('scriptaculous/dragdrop.js', $app->getTheme(true));
+    $app->addJs('scriptaculous/controls.js', $app->getTheme(true));
+    $app->addJs('scriptaculous/slider.js', $app->getTheme(true));
+    $app->addJs('varien/js.js', $app->getTheme(true));
+    $app->addJs('varien/form.js', $app->getTheme(true));
+    $app->addJs('varien/google.js', $app->getTheme(true));
+    $app->addJs('varien/menu.js', $app->getTheme(true));
+    $app->addJs('mage/translate.js', $app->getTheme(true));
+    $app->addJs('mage/cookies.js', $app->getTheme(true));
 
     // Home Page
     if ($handle == 'cms_index_index') {

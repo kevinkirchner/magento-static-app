@@ -52,11 +52,112 @@ class StaticApp extends StaticApp_Abstract
         return $this;
     }
     
-    // Add CSS
-    
-    // Add JS
-    
-    // Add Item 
+    /**
+     * Add CSS file to HEAD entity
+     *
+     * @param string $name
+     * @param string $params
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addCss($name, $theme = 'default', $params = "")
+    {
+        $this->addItem('skin_css', $name, $theme, $params);
+        return $this;
+    }
+
+    /**
+     * Add JavaScript file to HEAD entity
+     *
+     * @param string $name
+     * @param string $params
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addJs($name, $theme = 'default', $params = "")
+    {
+        $this->addItem('js', $name, $theme, $params);
+        return $this;
+    }
+
+    public function addExternalJs($url, $theme = 'default', $params = "")
+    {
+        $this->addItem('external_js', $url, $theme, $params);
+        return $this;        
+    }
+
+    /**
+     * Add HEAD Item
+     *
+     * Allowed types:
+     *  - js
+     *  - js_css
+     *  - skin_js
+     *  - skin_css
+     *  - rss
+     *
+     * @param string $type
+     * @param string $name
+     * @param string $params
+     * @param string $if
+     * @param string $cond
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addItem($type, $name, $theme = 'default', $params=null, $if=null, $cond=null)
+    {
+        if ($type==='skin_css' && empty($params)) {
+            $params = 'media="all"';
+        }
+        $this->_data['items'][$type.'/'.$name] = array(
+            'type'   => $type,
+            'name'   => $name,
+            'theme'  => $theme,
+            'params' => $params,
+            'if'     => $if,
+            'cond'   => $cond,
+       );
+        return $this;
+    }
+
+
+    /**
+     * print out css and js
+     *
+     * @return string
+     * @author 
+     **/
+    public function getCssJsHtml()
+    {
+    	if (!is_null($this->_data) && isset($this->_data['items'])) {
+    		$html = '';
+    		$script = '<script type="text/javascript" src="%s"%s></script>';
+    		$link = '<link rel="stylesheet" type="text/css" href="%s"%s />';
+    		$items = $this->_data['items'];
+    		foreach ($items as $key => $item) {
+    			$html .= isset($item['if']) ? '<!--[if ' . $item['if'] . ']>' : '';
+    			switch ($item['type']) {
+	                case 'js_css':    // js/*.css
+    					$html .= sprintf($link, 'js/'.$item['name'], $item['params']);
+    					break;
+	                case 'js':        // js/*.js
+    					$html .= sprintf($script, 'js/'.$item['name'], $item['params']);
+    					break;
+	                case 'skin_css':  // skin/*/*.css
+    					$html .= sprintf($link, 'skin/'.$item['theme'].'/css/'.$item['name'], $item['params']);
+    					break;
+	                case 'skin_js':   // skin/*/*.js
+    					$html .= sprintf($script, 'skin/'.$item['theme'].'/css/'.$item['name'], $item['params']);
+    					break;
+                    case 'external_js':
+                        $html .= sprintf($script, $item['name'], $item['params']);
+                        break;
+    				default:
+    					# code...
+    					break;
+    			}
+    			$html .= isset($item['if']) ? '<![endif-->' : '';
+    		}
+            return $html;
+    	}
+    }
     
     // Add CMS Block
     public function addCmsBlock($structuralBlock, $template, $name, $alias='', $type='cms/block', $theme='default')

@@ -19,5 +19,5 @@ if ($handle) {
     $app->setHandle( $handle );
 }
 
-// Load Default Pages
+// Load Defaults
 include_once('default.php');
